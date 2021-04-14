@@ -34,7 +34,7 @@ namespace UnitTestingLinqLambda.Data.UnitTests.Products
                 new Product(Guid.Parse("00000000-0000-0000-0000-000000000003"), expectedProductName2, "It's a car!"),
             };
 
-            // This is the expected expression, which shoulkd
+            // This is the expected expression, which provides the return we expect from the method we are mocking.
             Func<Expression<Func<Product, bool>>, bool> expectedExpression = exp =>
             {
                 var func = exp.Compile();
