@@ -22,8 +22,11 @@ namespace UnitTestingLinqLambda.Data.UnitTests.Products
         [Fact]
         public async Task Return_ExpectedProducts_AsList()
         {
+            // This is the filter we're going to pass to the method
+            const string filter = "Pon";
+
             // These are the productNames we're going to expect to be returned
-            const string expectedProductName1 = "Poncho";
+            const string expectedProductName1 = "A Poncho";
             const string expectedProductName2 = "Pontiac";
             
             // This is a list of Products that our lambda expression will iterate over looking for matches.
@@ -34,23 +37,33 @@ namespace UnitTestingLinqLambda.Data.UnitTests.Products
                 new Product(Guid.Parse("00000000-0000-0000-0000-000000000003"), expectedProductName2, "It's a car!"),
             };
 
-            // This is the expected expression, which provides the return we expect from the method we are mocking.
+            // This is the expected expression. 
+            // 
+            // This is where we define which of the above products we expect to be returned from the expression.
             Func<Expression<Func<Product, bool>>, bool> expectedExpression = exp =>
             {
                 var func = exp.Compile();
+                
                 return func(productsReturn[0]) &&
                     !func(productsReturn[1]) &&
                     func(productsReturn[2]);
             };
 
+            // On .Setup we can use It.Is to match the expression above and return the expected results.
             _productsRepository.Setup(p => p.ToListAsync(It.Is<Expression<Func<Product, bool>>>(exp => expectedExpression(exp))))
                 .ReturnsAsync(new List<Product> { productsReturn[0], productsReturn[2] })
                 .Verifiable();
 
-            var result = await _sut.GetByName("Pon");
+            // Act
+            var results = await _sut.GetByName(filter);
 
-            Assert.NotNull(result);
-            Assert.Equal(2, result.Count);
+            // Assert
+            Assert.NotNull(results);
+            Assert.Equal(2, results.Count);
+            Assert.Equal(expectedProductName1, results[0].Name);
+            Assert.Equal(expectedProductName2, results[1].Name);
+
+            _productsRepository.Verify();
         }
     }
 }
