@@ -10,7 +10,7 @@ namespace UnitTestingLinqLambda.Data.Products
         /// <summary>
         ///     Id
         /// </summary>
-        public Guid Id { get; private set; }
+        public int Id { get; private set; }
 
         /// <summary>
         ///     Name
@@ -31,7 +31,7 @@ namespace UnitTestingLinqLambda.Data.Products
         /// <exception cref="ArgumentNullException">
         ///     Thrown when name or description are empty.
         /// </exception>
-        public Product(Guid id, string name, string description)
+        public Product(int id, string name, string description)
         {
             Id = id;
             Name = string.IsNullOrWhiteSpace(name) ? throw new ArgumentNullException(nameof(name)) : name;

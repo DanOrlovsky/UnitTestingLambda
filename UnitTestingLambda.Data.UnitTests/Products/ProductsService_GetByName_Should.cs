@@ -32,9 +32,9 @@ namespace UnitTestingLinqLambda.Data.UnitTests.Products
             // This is a list of Products that our lambda expression will iterate over looking for matches.
             var productsReturn = new List<Product>
             {
-                new Product(Guid.Parse("00000000-0000-0000-0000-000000000001"), expectedProductName1, "A good poncho"),
-                new Product(Guid.Parse("00000000-0000-0000-0000-000000000002"), "A product", "This thing is cool, but you'll never know it."),
-                new Product(Guid.Parse("00000000-0000-0000-0000-000000000003"), expectedProductName2, "It's a car!"),
+                new Product(1, expectedProductName1, "A good poncho"),
+                new Product(2, "A product", "This thing is cool, but you'll never know it."),
+                new Product(3, expectedProductName2, "It's a car!"),
             };
 
             // This is the expected expression. 
